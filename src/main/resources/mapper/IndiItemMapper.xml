@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecreditpal.targetmanager.mapper.IndiItemMapper">
+    <resultMap id="BaseResultMap" type="com.ecreditpal.targetmanager.mapper.entity.IndiItem">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="classify1" jdbcType="INTEGER" property="classify1"/>
+        <result column="classify2" jdbcType="INTEGER" property="classify2"/>
+        <result column="classify3" jdbcType="INTEGER" property="classify3"/>
+        <result column="classify1_name" jdbcType="VARCHAR" property="classify1Name"/>
+        <result column="classify2_name" jdbcType="VARCHAR" property="classify2Name"/>
+        <result column="classify3_name" jdbcType="VARCHAR" property="classify3Name"/>
+        <result column="indi_model" jdbcType="INTEGER" property="indiModel"/>
+        <result column="indi_model_name" jdbcType="INTEGER" property="indiModelName"/>
+        <result column="indi_code" jdbcType="VARCHAR" property="indiCode"/>
+        <result column="indi_name" jdbcType="VARCHAR" property="indiName"/>
+        <result column="indi_type" jdbcType="INTEGER" property="indiType"/>
+        <result column="rule" jdbcType="VARCHAR" property="rule"/>
+        <result column="created_by" jdbcType="INTEGER" property="createdBy"/>
+        <result column="create_dt" jdbcType="TIMESTAMP" property="createDt"/>
+        <result column="last_edit_by" jdbcType="INTEGER" property="lastEditBy"/>
+        <result column="last_edit_dt" jdbcType="TIMESTAMP" property="lastEditDt"/>
+        <result column="inst_id" jdbcType="INTEGER" property="instId"/>
+        <result column="inst_name" jdbcType="INTEGER" property="instName"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="comment" jdbcType="VARCHAR" property="comment"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, classify1, classify2, classify3, indi_model, indi_code, indi_name, indi_type,
+    rule, created_by, create_dt, last_edit_by, last_edit_dt, inst_id, status, type, version,
+    comment
+  </sql>
+    <sql id="Base_Column_List_Join">
+    item.id as id, item.classify1 as classify1 , item.classify2 as classify2 , item.classify3 as classify3, item.indi_model as indi_model,
+    item.indi_code as indi_code, item.indi_name as indi_name, item.indi_type as indi_type,
+    item.rule as rule, item.created_by as  created_by, item.create_dt as create_dt, item.last_edit_by as last_edit_by ,
+    item.last_edit_dt as last_edit_dt, item.inst_id as inst_id,  item.status as status , item.type as type, item.version as version ,
+    item.comment as comment,bc1.name as classify1_name ,bc2.name as classify2_name,bc3.name as classify3_name,bc4.name as indi_model_name,org.name as inst_name
+  </sql>
+    <sql id="Example_Where_Clause_Join">
+        <where>
+            <if test="id != null">
+                item.id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="classify1 != null ">
+                and item.classify1 = #{classify1,jdbcType=INTEGER}
+            </if>
+            <if test="classify2 != null ">
+                and item.classify2 = #{classify2,jdbcType=INTEGER}
+            </if>
+            <if test="classify3 != null ">
+                and item.classify3 = #{classify3,jdbcType=INTEGER}
+            </if>
+            <if test="indiModel != null ">
+                and item.indi_model = #{indiModel,jdbcType=INTEGER}
+            </if>
+            <if test="indiCode != null and indiCode != ''">
+                and item.indi_code = #{indiCode,jdbcType=VARCHAR}
+            </if>
+            <if test="indiName != null and indiName != ''">
+                and item.indi_name = #{indiName,jdbcType=VARCHAR}
+            </if>
+            <if test="indiType != null ">
+                and item.indi_type = #{indiType,jdbcType=INTEGER}
+            </if>
+            <if test="rule != null ">
+                and item.rule = #{rule,jdbcType=VARCHAR}
+            </if>
+            <if test="createdBy != null ">
+                and item.created_by = #{createdBy,jdbcType=INTEGER}
+            </if>
+            <if test="createDt != null ">
+                and item.create_dt = #{createDt,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastEditBy != null ">
+                and item.last_edit_by = #{lastEditBy,jdbcType=INTEGER}
+            </if>
+            <if test="lastEditDt != null ">
+                and item.last_edit_dt = #{lastEditDt,jdbcType=TIMESTAMP}
+            </if>
+            <if test="instId != null ">
+                and item.inst_id = #{instID,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null ">
+                and item.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="type != null ">
+                and item.type = #{type,jdbcType=INTEGER}
+            </if>
+            <if test="version != null ">
+                and item.version = #{version,jdbcType=VARCHAR}
+            </if>
+            <if test="comment != null ">
+                and item.comment = #{comment,jdbcType=VARCHAR}
+            </if>
+            <if test="startCreateTime != null">
+                <![CDATA[
+					and item.create_dt >= #{startCreateTime,jdbcType=TIMESTAMP}
+            	]]>
+            </if>
+            <if test="endCreateTime != null">
+                <![CDATA[
+					and item.create_dt <= #{endCreateTime,jdbcType=TIMESTAMP}
+            	]]>
+            </if>
+        </where>
+    </sql>
+    <sql id="Example_Where_Clause">
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="classify1 != null ">
+                and classify1 = #{classify1,jdbcType=INTEGER}
+            </if>
+            <if test="classify2 != null ">
+                and classify2 = #{classify2,jdbcType=INTEGER}
+            </if>
+            <if test="classify3 != null ">
+                and classify3 = #{classify3,jdbcType=INTEGER}
+            </if>
+            <if test="indiModel != null ">
+                and indi_model = #{indiModel,jdbcType=INTEGER}
+            </if>
+            <if test="indiCode != null and indiCode != ''">
+                and indi_code = #{indiCode,jdbcType=VARCHAR}
+            </if>
+            <if test="indiName != null and indiName != ''">
+                and indi_name = #{indiName,jdbcType=VARCHAR}
+            </if>
+            <if test="indiType != null ">
+                and indi_type = #{indiType,jdbcType=INTEGER}
+            </if>
+            <if test="rule != null ">
+                and rule = #{rule,jdbcType=VARCHAR}
+            </if>
+            <if test="createdBy != null ">
+                and created_by = #{createdBy,jdbcType=INTEGER}
+            </if>
+            <if test="createDt != null ">
+                and create_dt = #{createDt,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastEditBy != null ">
+                and last_edit_by = #{lastEditBy,jdbcType=INTEGER}
+            </if>
+            <if test="lastEditDt != null ">
+                and last_edit_dt = #{lastEditDt,jdbcType=TIMESTAMP}
+            </if>
+            <if test="instId != null ">
+                and inst_id = #{instID,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null ">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="type != null ">
+                and type = #{type,jdbcType=INTEGER}
+            </if>
+            <if test="version != null ">
+                and version = #{version,jdbcType=VARCHAR}
+            </if>
+            <if test="comment != null ">
+                and comment = #{comment,jdbcType=VARCHAR}
+            </if>
+            <if test="startCreateTime != null">
+                <![CDATA[
+					and create_dt >= #{startCreateTime,jdbcType=TIMESTAMP}
+            	]]>
+            </if>
+            <if test="endCreateTime != null">
+                <![CDATA[
+					and create_dt <= #{endCreateTime,jdbcType=TIMESTAMP}
+            	]]>
+            </if>
+        </where>
+    </sql>
+    <select id="selectCountByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem"
+            resultType="java.lang.Integer">
+        select
+        count(*)
+        from indi_item
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from indi_item
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+            <if test="orderByClause != null">
+                order by ${orderByClause}
+            </if>
+            <if test="first != null and count != null">
+                limit #{first} , #{count}
+            </if>
+        </if>
+    </select>
+    <select id="selectJoinByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from indi_item item
+        left join indi_basic_category bc1 on bc1.id = item.classify1
+        left join indi_basic_category bc2 on bc2.id = item.classify2
+        left join indi_basic_category bc3 on bc3.id = item.classify3
+        left join indi_basic_category bc4 on bc4.id = item.indi_model
+        left join indi_org_dimension org on item.inst_id = org.id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause_Join"/>
+            <if test="orderByClause != null">
+                order by ${orderByClause}
+            </if>
+            <if test="first != null and count != null">
+                limit #{first} , #{count}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from indi_item
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from indi_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem">
+    insert into indi_item (id, classify1, classify2,
+      classify3, indi_model, indi_code,
+      indi_name, indi_type, rule,
+      created_by, create_dt, last_edit_by,
+      last_edit_dt, inst_id, status,
+      type, version, comment
+      )
+    values (#{id,jdbcType=INTEGER}, #{classify1,jdbcType=INTEGER}, #{classify2,jdbcType=INTEGER},
+      #{classify3,jdbcType=INTEGER}, #{indiModel,jdbcType=INTEGER}, #{indiCode,jdbcType=VARCHAR},
+      #{indiName,jdbcType=VARCHAR}, #{indiType,jdbcType=INTEGER}, #{rule,jdbcType=VARCHAR},
+      #{createdBy,jdbcType=INTEGER}, #{createDt,jdbcType=TIMESTAMP}, #{lastEditBy,jdbcType=INTEGER},
+      #{lastEditDt,jdbcType=TIMESTAMP}, #{instId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+      #{type,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into indi_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="classify1 != null">
+                classify1,
+            </if>
+            <if test="classify2 != null">
+                classify2,
+            </if>
+            <if test="classify3 != null">
+                classify3,
+            </if>
+            <if test="indiModel != null">
+                indi_model,
+            </if>
+            <if test="indiCode == null">
+                indi_code,
+            </if>
+            <if test="indiName != null">
+                indi_name,
+            </if>
+            <if test="indiType != null">
+                indi_type,
+            </if>
+            <if test="rule != null">
+                rule,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createDt != null">
+                create_dt,
+            </if>
+            <if test="lastEditBy != null">
+                last_edit_by,
+            </if>
+            <if test="lastEditDt != null">
+                last_edit_dt,
+            </if>
+            <if test="instId != null">
+                inst_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="comment != null">
+                comment,
+            </if>
+        </trim>
+        <trim prefix="select " suffix=" " suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="classify1 != null">
+                #{classify1,jdbcType=INTEGER},
+            </if>
+            <if test="classify2 != null">
+                #{classify2,jdbcType=INTEGER},
+            </if>
+            <if test="classify3 != null">
+                #{classify3,jdbcType=INTEGER},
+            </if>
+            <if test="indiModel != null">
+                #{indiModel,jdbcType=INTEGER},
+            </if>
+            <if test="indiCode == null">
+                concat( (select code from indi_basic_category where id = #{classify1,jdbcType=INTEGER}),
+                (select code from indi_basic_category where id = #{classify2,jdbcType=INTEGER}),
+                (select code from indi_basic_category where id = #{classify3,jdbcType=INTEGER}),
+                (select code from indi_basic_category where id = #{indiModel,jdbcType=INTEGER}),
+                LPAD((select count(*)+1 from indi_item where classify1= #{classify1,jdbcType=INTEGER} and
+                classify2= #{classify2,jdbcType=INTEGER} and
+                classify3= #{classify3,jdbcType=INTEGER} and
+                indi_model = #{indiModel,jdbcType=INTEGER}),3,0)),
+            </if>
+            <if test="indiName != null">
+                #{indiName,jdbcType=VARCHAR},
+            </if>
+            <if test="indiType != null">
+                #{indiType,jdbcType=INTEGER},
+            </if>
+            <if test="rule != null">
+                #{rule,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDt != null">
+                #{createDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastEditBy != null">
+                #{lastEditBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastEditDt != null">
+                #{lastEditDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="instId != null">
+                #{instId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null">
+                #{comment,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem">
+        update indi_item
+        <set>
+            <if test="classify1 != null">
+                classify1 = #{classify1,jdbcType=INTEGER},
+            </if>
+            <if test="classify2 != null">
+                classify2 = #{classify2,jdbcType=INTEGER},
+            </if>
+            <if test="classify3 != null">
+                classify3 = #{classify3,jdbcType=INTEGER},
+            </if>
+            <if test="indiModel != null">
+                indi_model = #{indiModel,jdbcType=INTEGER},
+            </if>
+            <if test="indiCode != null">
+                indi_code = #{indiCode,jdbcType=VARCHAR},
+            </if>
+            <if test="indiName != null">
+                indi_name = #{indiName,jdbcType=VARCHAR},
+            </if>
+            <if test="indiType != null">
+                indi_type = #{indiType,jdbcType=INTEGER},
+            </if>
+            <if test="rule != null">
+                rule = #{rule,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDt != null">
+                create_dt = #{createDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastEditBy != null">
+                last_edit_by = #{lastEditBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastEditDt == null">
+                last_edit_dt = CURRENT_TIMESTAMP,
+            </if>
+            <if test="lastEditDt != null">
+                last_edit_dt = #{lastEditDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="instId != null">
+                inst_id = #{instId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null">
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem">
+    update indi_item
+    set classify1 = #{classify1,jdbcType=INTEGER},
+      classify2 = #{classify2,jdbcType=INTEGER},
+      classify3 = #{classify3,jdbcType=INTEGER},
+      indi_model = #{indiModel,jdbcType=INTEGER},
+      indi_code = #{indiCode,jdbcType=VARCHAR},
+      indi_name = #{indiName,jdbcType=VARCHAR},
+      indi_type = #{indiType,jdbcType=INTEGER},
+      rule = #{rule,jdbcType=VARCHAR},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      create_dt = #{createDt,jdbcType=TIMESTAMP},
+      last_edit_by = #{lastEditBy,jdbcType=INTEGER},
+      last_edit_dt = #{lastEditDt,jdbcType=TIMESTAMP},
+      inst_id = #{instId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

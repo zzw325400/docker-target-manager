@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecreditpal.targetmanager.mapper.IndiDataMapper">
+    <resultMap id="BaseResultMap" type="com.ecreditpal.targetmanager.mapper.entity.IndiData">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="data_dt" jdbcType="TIMESTAMP" property="dataDt"/>
+        <result column="indi_id" jdbcType="INTEGER" property="indiId"/>
+        <result column="indi_name" jdbcType="VARCHAR" property="indiName"/>
+        <result column="org_id" jdbcType="INTEGER" property="orgId"/>
+        <result column="org_name" jdbcType="INTEGER" property="orgName"/>
+        <result column="org_code" jdbcType="INTEGER" property="orgCode"/>
+        <result column="curr_cd" jdbcType="VARCHAR" property="currCd"/>
+        <result column="data_value" jdbcType="DECIMAL" property="dataValue"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, data_dt, indi_id, org_id, curr_cd, data_value
+  </sql>
+    <sql id="Base_Column_List_Join">
+    dt.id as id, dt.data_dt as data_dt, dt.indi_id as indi_id,
+    dt.org_id as org_id, dt.curr_cd as curr_cd, dt.data_value as data_value,item.indi_name as indi_name,
+    org.name as org_name,org.code as org_code
+  </sql>
+    <sql id="Example_Where_Clause">
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="dataDt != null ">
+                and data_dt = #{dataDt,jdbcType=INTEGER}
+            </if>
+            <if test="indiId != null ">
+                and indi_id = #{indiId,jdbcType=INTEGER}
+            </if>
+            <if test="orgId != null ">
+                and org_id = #{orgId,jdbcType=INTEGER}
+            </if>
+            <if test="currCd != null ">
+                and curr_cd = #{currCd,jdbcType=INTEGER}
+            </if>
+            <if test="dataValue != null ">
+                and data_value = #{dataValue,jdbcType=DECIMAL}
+            </if>
+        </where>
+    </sql>
+    <sql id="Example_Where_Clause_Join">
+        <where>
+            <if test="id != null">
+                dt.id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="dataDt != null ">
+                and dt.iddata_dt = #{dataDt,jdbcType=INTEGER}
+            </if>
+            <if test="indiId != null ">
+                and dt.indi_id = #{indiId,jdbcType=INTEGER}
+            </if>
+            <if test="orgId != null ">
+                and dt.idorg_id = #{orgId,jdbcType=INTEGER}
+            </if>
+            <if test="currCd != null ">
+                and dt.idcurr_cd = #{currCd,jdbcType=INTEGER}
+            </if>
+            <if test="dataValue != null ">
+                and dt.iddata_value = #{dataValue,jdbcType=DECIMAL}
+            </if>
+        </where>
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from indi_data
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from indi_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiData">
+    insert into indi_data (id, data_dt, indi_id, 
+      org_id, curr_cd, data_value
+      )
+    values (#{id,jdbcType=INTEGER}, #{dataDt,jdbcType=TIMESTAMP}, #{indiId,jdbcType=INTEGER}, 
+      #{orgId,jdbcType=INTEGER}, #{currCd,jdbcType=VARCHAR}, #{dataValue,jdbcType=DECIMAL}
+      )
+  </insert>
+    <select id="selectByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.BasicCategory"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from indi_data
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+            <if test="orderByClause != null">
+                order by ${orderByClause}
+            </if>
+            <if test="first != null and count != null">
+                limit #{first} , #{count}
+            </if>
+        </if>
+    </select>
+    <select id="selectCountByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.BasicCategory"
+            resultType="java.lang.Integer">
+        select count(*)
+        from indi_data
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+            <if test="orderByClause != null">
+                order by ${orderByClause}
+            </if>
+            <if test="first != null and count != null">
+                limit #{first} , #{count}
+            </if>
+        </if>
+    </select>
+    <select id="selectJoinByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.BasicCategory"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from indi_data dt
+        left join indi_item item on item.id = dt.indi_id
+        left join indi_org_dimension org on dt.org_id = org.id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause_Join"/>
+            <if test="orderByClause != null">
+                order by ${orderByClause}
+            </if>
+            <if test="first != null and count != null">
+                limit #{first} , #{count}
+            </if>
+        </if>
+    </select>
+    <insert id="insertSelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiData">
+        insert into indi_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dataDt != null">
+                data_dt,
+            </if>
+            <if test="indiId != null">
+                indi_id,
+            </if>
+            <if test="orgId != null">
+                org_id,
+            </if>
+            <if test="currCd != null">
+                curr_cd,
+            </if>
+            <if test="dataValue != null">
+                data_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="dataDt != null">
+                #{dataDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="indiId != null">
+                #{indiId,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=INTEGER},
+            </if>
+            <if test="currCd != null">
+                #{currCd,jdbcType=VARCHAR},
+            </if>
+            <if test="dataValue != null">
+                #{dataValue,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiData">
+        update indi_data
+        <set>
+            <if test="dataDt != null">
+                data_dt = #{dataDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="indiId != null">
+                indi_id = #{indiId,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                org_id = #{orgId,jdbcType=INTEGER},
+            </if>
+            <if test="currCd != null">
+                curr_cd = #{currCd,jdbcType=VARCHAR},
+            </if>
+            <if test="dataValue != null">
+                data_value = #{dataValue,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiData">
+    update indi_data
+    set data_dt = #{dataDt,jdbcType=TIMESTAMP},
+      indi_id = #{indiId,jdbcType=INTEGER},
+      org_id = #{orgId,jdbcType=INTEGER},
+      curr_cd = #{currCd,jdbcType=VARCHAR},
+      data_value = #{dataValue,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecreditpal.targetmanager.mapper.DeriveBasicMapper">
+    <resultMap id="BaseResultMap" type="com.ecreditpal.targetmanager.mapper.entity.DeriveBasic">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="derive_id" jdbcType="INTEGER" property="deriveId"/>
+        <result column="basic_id" jdbcType="INTEGER" property="basicId"/>
+        <result column="basic_name" jdbcType="VARCHAR" property="basicName"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, derive_id, basic_id, status
+  </sql>
+    <sql id="Base_Column_List_Join">
+    idb.id as id, idb.derive_id as derive_id, idb.basic_id as basic_id, idb.status as status,item.indi_name as basic_name
+  </sql>
+    <sql id="Example_Where_Clause">
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="deriveId != null ">
+                and derive_id = #{deriveId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null ">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+    <sql id="Example_Where_Clause_Join">
+        <where>
+            <if test="id != null">
+                idb.id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="deriveId != null ">
+                and idb.derive_id = #{deriveId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null ">
+                and idb.status = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inst_derive_basic
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeriveBasic"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inst_derive_basic
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+            <if test="orderByClause != null">
+                order by ${orderByClause}
+            </if>
+            <if test="first != null and count != null">
+                limit #{first} , #{count}
+            </if>
+        </if>
+    </select>
+    <select id="selectJoinByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeriveBasic"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from inst_derive_basic idb
+        left join indi_item item on item.id = idb.basic_id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause_Join"/>
+            <if test="orderByClause != null">
+                order by ${orderByClause}
+            </if>
+            <if test="first != null and count != null">
+                limit #{first} , #{count}
+            </if>
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from inst_derive_basic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeriveBasic">
+    insert into inst_derive_basic (id, derive_id, basic_id, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{deriveId,jdbcType=INTEGER}, #{basicId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeriveBasic">
+        insert into inst_derive_basic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="deriveId != null">
+                derive_id,
+            </if>
+            <if test="basicId != null">
+                basic_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="select " suffix="" suffixOverrides=",">
+            <if test="id != null">
+                #{deriveId,jdbcType=INTEGER},
+            </if>
+            <if test="deriveId != null">
+                #{deriveId,jdbcType=INTEGER},
+            </if>
+            <if test="basicId != null">
+                #{basicId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+        from DUAL where not exists (select * from inst_derive_basic where derive_id =
+        #{deriveId,jdbcType=INTEGER}
+        and basic_id = #{basicId,jdbcType=INTEGER} and status =0)
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeriveBasic">
+        update inst_derive_basic
+        <set>
+            <if test="deriveId != null">
+                derive_id = #{deriveId,jdbcType=INTEGER},
+            </if>
+            <if test="basicId != null">
+                basic_id = #{basicId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeriveBasic">
+    update inst_derive_basic
+    set derive_id = #{deriveId,jdbcType=INTEGER},
+      basic_id = #{basicId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="deleteByItem" parameterType="com.ecreditpal.targetmanager.mapper.entity.IndiItem">
+        update inst_derive_basic
+        set
+        status = 1
+        where derive_id = #{id,jdbcType=INTEGER}
+        <if test="baseIds!=null and baseIds.size()>0">
+            and basic_id not in
+            <foreach item="item" index="index" collection="BaseIds" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </update>
+</mapper>

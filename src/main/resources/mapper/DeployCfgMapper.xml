@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecreditpal.targetmanager.mapper.DeployCfgMapper">
+    <resultMap id="BaseResultMap" type="com.ecreditpal.targetmanager.mapper.entity.DeployCfg">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="indi_id" jdbcType="INTEGER" property="indiId"/>
+        <result column="indi_name" jdbcType="INTEGER" property="indiName"/>
+        <result column="indi_code" jdbcType="VARCHAR" property="indiCode"/>
+        <result column="data_dt" jdbcType="TIMESTAMP" property="dataDt"/>
+        <result column="process_inst" jdbcType="VARCHAR" property="processInst"/>
+        <result column="inst_type" jdbcType="INTEGER" property="instType"/>
+        <result column="created_by" jdbcType="INTEGER" property="createdBy"/>
+        <result column="create_dt" jdbcType="TIMESTAMP" property="createDt"/>
+        <result column="last_edit_by" jdbcType="INTEGER" property="lastEditBy"/>
+        <result column="last_edit_dt" jdbcType="TIMESTAMP" property="lastEditDt"/>
+        <result column="edit_times" jdbcType="INTEGER" property="editTimes"/>
+        <result column="is_valid" jdbcType="INTEGER" property="isValid"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, indi_id, process_inst, inst_type, created_by, create_dt, last_edit_by,edit_times,last_edit_dt,
+    status,is_valid
+  </sql>
+    <sql id="Base_Column_List_Join">
+    cfg.id as id , cfg.indi_id as indi_id , cfg.process_inst as process_inst ,
+    cfg.inst_type as inst_type,cfg.edit_times as edit_times,  cfg.created_by as created_by ,
+    cfg.create_dt as create_dt,  cfg.last_edit_by as last_edit_by,
+     cfg.last_edit_dt as last_edit_dt ,  cfg.status as status ,cfg.is_valid as is_valid,item.indi_name as indi_name
+  </sql>
+    <sql id="Base_Column_List_Join_Manage">
+   cfg.id as id , cfg.indi_id as indi_id , cfg.process_inst as process_inst ,
+    cfg.inst_type as inst_type,cfg.edit_times as edit_times,  cfg.created_by as created_by ,
+    cfg.create_dt as create_dt,  cfg.last_edit_by as last_edit_by,
+     cfg.last_edit_dt as last_edit_dt ,  cfg.status as status ,cfg.is_valid as is_valid,
+    item.indi_name as indi_name,item.indi_code as indi_code,dt.data_dt as data_dt
+  </sql>
+    <sql id="Example_Where_Clause_Join">
+        <where>
+            <if test="id != null">
+                cfg.id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="indiId != null ">
+                and cfg.indi_id = #{indiId,jdbcType=INTEGER}
+            </if>
+            <if test="processInst != null ">
+                and cfg.process_inst = #{processInst,jdbcType=INTEGER}
+            </if>
+            <if test="instType != null ">
+                and cfg.inst_type = #{instType,jdbcType=VARCHAR}
+            </if>
+            <if test="createdBy != null ">
+                and cfg.created_by = #{createdBy,jdbcType=VARCHAR}
+            </if>
+            <if test="createDt != null ">
+                and cfg.create_dt = #{createDt,jdbcType=INTEGER}
+            </if>
+            <if test="lastEditBy != null ">
+                and cfg.last_edit_by = #{lastEditBy,jdbcType=INTEGER}
+            </if>
+            <if test="lastEditDt!= null ">
+                and cfg.last_edit_dt = #{lastEditDt,jdbcType=INTEGER}
+            </if>
+            <if test="status != null ">
+                and cfg.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="startDataDt != null ">
+                <![CDATA[
+					and dt.data_dt >= #{startDataDt,jdbcType=TIMESTAMP}
+            	]]>
+            </if>
+            <if test="endDataDt != null ">
+                <![CDATA[
+					and dt.data_dt <= #{endDataDt,jdbcType=TIMESTAMP}
+            	]]>
+            </if>
+        </where>
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from indi_deploy_cfg
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectManageJoinByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeployCfg" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join_Manage"/>
+        from indi_deploy_cfg cfg
+        left join indi_item item on cfg.indi_id = item.id
+        left join indi_data dt on dt.indi_id = cfg.indi_id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause_Join"/>
+        </if>
+        order by dt.data_dt desc limit 1
+    </select>
+    <select id="selectJoinByExample" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeployCfg" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Join"/>
+        from indi_deploy_cfg cfg
+        left join indi_item item on cfg.indi_id = item.id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause_Join"/>
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from indi_deploy_cfg
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeployCfg">
+    insert into indi_deploy_cfg (id, indi_id, process_inst, 
+      inst_type, created_by, create_dt, 
+      last_edit_by, last_edit_dt, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{indiId,jdbcType=INTEGER}, #{processInst,jdbcType=VARCHAR}, 
+      #{instType,jdbcType=INTEGER}, #{createdBy,jdbcType=INTEGER}, #{createDt,jdbcType=TIMESTAMP}, 
+      #{lastEditBy,jdbcType=INTEGER}, #{lastEditDt,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeployCfg">
+        insert into indi_deploy_cfg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="indiId != null">
+                indi_id,
+            </if>
+            <if test="processInst != null">
+                process_inst,
+            </if>
+            <if test="instType != null">
+                inst_type,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="createDt != null">
+                create_dt,
+            </if>
+            <if test="lastEditBy != null">
+                last_edit_by,
+            </if>
+            <if test="lastEditDt != null">
+                last_edit_dt,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="isValid != null">
+                is_valid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="indiId != null">
+                #{indiId,jdbcType=INTEGER},
+            </if>
+            <if test="processInst != null">
+                #{processInst,jdbcType=VARCHAR},
+            </if>
+            <if test="instType != null">
+                #{instType,jdbcType=INTEGER},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDt != null">
+                #{createDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastEditBy != null">
+                #{lastEditBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastEditDt != null">
+                #{lastEditDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="isValid != null">
+                #{isValid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeployCfg">
+        update indi_deploy_cfg
+        <set>
+            <if test="indiId != null">
+                indi_id = #{indiId,jdbcType=INTEGER},
+            </if>
+            <if test="processInst != null">
+                process_inst = #{processInst,jdbcType=VARCHAR},
+            </if>
+            <if test="instType != null">
+                inst_type = #{instType,jdbcType=INTEGER},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="createDt != null">
+                create_dt = #{createDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastEditBy != null">
+                last_edit_by = #{lastEditBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastEditDt != null">
+                last_edit_dt = #{lastEditDt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastEditDt == null">
+                last_edit_dt = CURRENT_TIMESTAMP,
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="isValid != null">
+               is_valid =  #{isValid,jdbcType=INTEGER},
+            </if>
+            edit_times = edit_times+1,
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ecreditpal.targetmanager.mapper.entity.DeployCfg">
+    update indi_deploy_cfg
+    set indi_id = #{indiId,jdbcType=INTEGER},
+      process_inst = #{processInst,jdbcType=VARCHAR},
+      inst_type = #{instType,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      create_dt = #{createDt,jdbcType=TIMESTAMP},
+      last_edit_by = #{lastEditBy,jdbcType=INTEGER},
+      last_edit_dt = #{lastEditDt,jdbcType=TIMESTAMP},
+       edit_times = edit_times+1,
+      status = #{status,jdbcType=INTEGER},
+       is_valid = #{isValid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
