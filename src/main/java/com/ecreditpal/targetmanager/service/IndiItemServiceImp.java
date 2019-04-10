@@ -1,6 +1,7 @@
 package com.ecreditpal.targetmanager.service;
 
 import com.ecreditpal.targetmanager.common.ConstValue;
+import com.ecreditpal.targetmanager.common.ErrorCode;
 import com.ecreditpal.targetmanager.common.ResponseMes;
 import com.ecreditpal.targetmanager.mapper.DeriveBasicMapper;
 import com.ecreditpal.targetmanager.mapper.IndiItemMapper;
@@ -35,8 +36,9 @@ public class IndiItemServiceImp implements IndiItemService {
     public ResponseMes selectByExample(IndiItem example, Integer pageNum, Integer pageSize) {
         //logger.info(example.toString());
         int count = indiItemMapper.selectCountByExample(example);
-        if (pageNum != null && pageSize != null)
+        if (pageNum != null && pageSize != null) {
             PageHelper.startPage(pageNum, pageSize);
+        }
         List<IndiItem> list = indiItemMapper.selectJoinByExample(example);
         //logger.info(list.toString());
 
@@ -56,7 +58,7 @@ public class IndiItemServiceImp implements IndiItemService {
 
     @Override
     public ResponseMes addByExample(IndiItem example, Integer[] baseList) {
-       // logger.info(example.toString());
+        // logger.info(example.toString());
         example.setStatus((Integer) ConstValue.STATUS_NORMAL.getValue());
         indiItemMapper.insertSelective(example);
         if (baseList != null && baseList.length > 0) {
@@ -86,7 +88,7 @@ public class IndiItemServiceImp implements IndiItemService {
             logger.info(example.toString());
             deriveBasicMapper.deleteByItem(example);
         }
-        ResponseMes res= new ResponseMes();
+        ResponseMes res = new ResponseMes();
         return res;
     }
 

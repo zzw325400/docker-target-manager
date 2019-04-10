@@ -5,6 +5,8 @@ public enum ErrorCode {
 
     CANT_ADD_CFG(901, "该指标项已经存在调度配置，无法新增"),
 
+    CANT_ADD_TAR(901, "存在同名指标，无法新增"),
+
     CODE_LENGTH_LIMIT(854, "code长度超过限制"),
 
     NODE_CANT_OWN_SON(853, "此节点下不能创建子节点"),

@@ -1,6 +1,7 @@
 package com.ecreditpal.targetmanager.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -19,6 +20,7 @@ import javax.sql.DataSource;
  * @data 2018/11/6 16:27
  * @description
  **/
+@Slf4j
 @Configuration
 @MapperScan(basePackages = "com.ecreditpal.targetmanager.mapper")
 public class DataSourceConfig {
@@ -38,6 +40,7 @@ public class DataSourceConfig {
     public DataSource setDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(url);
+        log.info(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         return dataSource;
